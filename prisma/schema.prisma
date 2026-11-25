@@ -1,0 +1,49 @@
+generator client {
+  provider     = "prisma-client"
+  output       = "../generated/prisma"
+  moduleFormat = "cjs"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Contact {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  age       Int
+  status    String   @default("Active")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+
+
+model BulkAction {
+  id          String           @id
+  entity      String
+  action      String
+  status      String
+  total       Int
+  successful  Int              @default(0)
+  failed      Int              @default(0)
+  payload     Json?
+  createdAt   DateTime         @default(now())
+  completedAt DateTime?
+  logs        BulkActionLog[]
+}
+
+model BulkActionLog {
+  id           Int        @id @default(autoincrement())
+  bulkActionId String
+  recordId     Int
+  status       String
+  message      String
+  data         Json?
+  createdAt    DateTime   @default(now())
+
+  bulkAction   BulkAction @relation(fields: [bulkActionId], references: [id], onDelete: Cascade)
+
+  @@index([bulkActionId, status])
+}
