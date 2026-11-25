@@ -21,10 +21,10 @@ coverage/
 # Build output
 dist/
 
+# Cache and deployment files
+.cache/
+.vercel/
+
 # Operating system files
 .DS_Store
 Thumbs.db
-
-.agents/
-.claude/
-.windsurf/
