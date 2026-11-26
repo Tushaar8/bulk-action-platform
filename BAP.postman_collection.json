@@ -1,0 +1,392 @@
+{
+  "info": {
+    "_postman_id": "b8dda1f0-ccf8-4025-a0a3-57e78c9cea8c",
+    "name": "BAP",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "60419091",
+    "_collection_link": "https://go.postman.co/collection/60419091-b8dda1f0-ccf8-4025-a0a3-57e78c9cea8c?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "New Folder",
+      "item": [
+        {
+          "name": "Verify api",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": ""
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Contacts",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/contacts",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "contacts"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "bulk-actions",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"entity\": \"contacts\",\r\n  \"action\": \"update\",\r\n  \"ids\": [1],\r\n  \"data\": {\r\n    \"status\": \"Active\"\r\n  }\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:5000/bulk-actions",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "bulk-actions"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "bulk-actions",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "bulk-actions/id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/bulk-actions/9eb3946a-872f-4c88-a598-becf7affeff4",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "bulk-actions",
+                "9eb3946a-872f-4c88-a598-becf7affeff4"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "bulk-actions/id/stats",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": ""
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "bulk-actions/id/logs",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/bulk-actions/9eb3946a-872f-4c88-a598-becf7affeff4/logs",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "bulk-actions",
+                "9eb3946a-872f-4c88-a598-becf7affeff4",
+                "logs"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "bulk-actions/id/logs?status=failed",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/bulk-actions/9eb3946a-872f-4c88-a598-becf7affeff4/logs?status=failed",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "bulk-actions",
+                "9eb3946a-872f-4c88-a598-becf7affeff4",
+                "logs"
+              ],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "failed"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Pagination",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/bulk-actions?page=1&limit=2",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "bulk-actions"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "2"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Welcome",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000"
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "about",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:3000/about",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "about"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "health",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/health",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "health"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "contact/num",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "localhost:3000/contacts/2",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "contacts",
+            "2"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "bulk-actions",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"entity\": \"contacts\",\r\n  \"action\": \"update\",\r\n  \"ids\": [1, 2, 99],\r\n  \"data\": {\r\n    \"status\": \"Active\"\r\n  }\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:3000/bulk-actions",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "bulk-actions"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "bulk-action/jobid",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/bulk-actions/5e1e2466-a03e-45d4-b80c-d9dd5d530ab8",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "bulk-actions",
+            "5e1e2466-a03e-45d4-b80c-d9dd5d530ab8"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "bulk-actions/jobid/stats",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/bulk-actions/a7348afd-af67-444a-afe3-e9602b531a4e/stats",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "bulk-actions",
+            "a7348afd-af67-444a-afe3-e9602b531a4e",
+            "stats"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "bulk-actions/",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/bulk-actions",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "bulk-actions"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "logs",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/bulk-actions/1408383b-f27c-4b9c-910c-c328d2c32c64/logs",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "bulk-actions",
+            "1408383b-f27c-4b9c-910c-c328d2c32c64",
+            "logs"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
