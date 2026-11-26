@@ -8,17 +8,28 @@ const createBulkAction = async (req, res) => {
   try {
     const { entity, action, ids, data } = req.body || {};
 
-    if (!Array.isArray(ids) || ids.length === 0) {
+    // Validate IDs
+    if (
+      !Array.isArray(ids) ||
+      ids.length === 0 ||
+      !ids.every((id) => Number.isInteger(id) && id > 0)
+    ) {
       return res.status(400).json({
         success: false,
-        message: "Please provide a non-empty ids array",
+        message: "Please provide an array of valid positive integer IDs",
       });
     }
 
-    if (!data || typeof data !== "object" || Array.isArray(data)) {
+    // Validate update data
+    if (
+      !data ||
+      typeof data !== "object" ||
+      Array.isArray(data) ||
+      Object.keys(data).length === 0
+    ) {
       return res.status(400).json({
         success: false,
-        message: "Please provide valid update data",
+        message: "Please provide valid non-empty update data",
       });
     }
 
@@ -39,7 +50,7 @@ const createBulkAction = async (req, res) => {
 
     return res.status(500).json({
       success: false,
-      message: error.message,
+      message: "Failed to create bulk action",
     });
   }
 };

@@ -5,7 +5,7 @@ const getAllContacts = async (req, res) => {
   try {
     const contacts = await contactsService.getAllContacts();
 
-    res.json({
+    return res.status(200).json({
       success: true,
       count: contacts.length,
       data: contacts,
@@ -13,10 +13,9 @@ const getAllContacts = async (req, res) => {
   } catch (error) {
     console.error("Database Error:", error);
 
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       message: "Failed to fetch contacts",
-      error: error.message,
     });
   }
 };
@@ -24,7 +23,16 @@ const getAllContacts = async (req, res) => {
 // Get contact by ID
 const getContactById = async (req, res) => {
   try {
-    const contact = await contactsService.getContactById(req.params.id);
+    const id = Number(req.params.id);
+
+    if (!Number.isInteger(id) || id <= 0) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid contact ID",
+      });
+    }
+
+    const contact = await contactsService.getContactById(id);
 
     if (!contact) {
       return res.status(404).json({
@@ -33,12 +41,14 @@ const getContactById = async (req, res) => {
       });
     }
 
-    res.json({
+    return res.status(200).json({
       success: true,
       data: contact,
     });
   } catch (error) {
-    res.status(500).json({
+    console.error("Database Error:", error);
+
+    return res.status(500).json({
       success: false,
       message: "Failed to fetch contact",
     });

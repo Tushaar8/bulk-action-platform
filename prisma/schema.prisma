@@ -18,8 +18,6 @@ model Contact {
   updatedAt DateTime @updatedAt
 }
 
-
-
 model BulkAction {
   id          String           @id
   entity      String
@@ -32,6 +30,9 @@ model BulkAction {
   createdAt   DateTime         @default(now())
   completedAt DateTime?
   logs        BulkActionLog[]
+
+  // Helps find queued jobs efficiently
+  @@index([status, createdAt])
 }
 
 model BulkActionLog {
@@ -45,5 +46,6 @@ model BulkActionLog {
 
   bulkAction   BulkAction @relation(fields: [bulkActionId], references: [id], onDelete: Cascade)
 
+  // Helps filter logs by job and status
   @@index([bulkActionId, status])
 }

@@ -1,6 +1,9 @@
 const { randomUUID } = require("crypto");
 const prisma = require("../config/prisma");
 
+// Allowed Contact fields
+const ALLOWED_CONTACT_FIELDS = ["name", "email", "age", "status"];
+
 // Create a bulk action job
 const createBulkAction = async ({
   ids,
@@ -8,14 +11,45 @@ const createBulkAction = async ({
   entity = "contacts",
   action = "update",
 }) => {
-  if (!Array.isArray(ids) || ids.length === 0) {
-    throw new Error("A non-empty ids array is required");
+  // Validate IDs
+  if (
+    !Array.isArray(ids) ||
+    ids.length === 0 ||
+    !ids.every((id) => Number.isInteger(id) && id > 0)
+  ) {
+    throw new Error("Please provide an array of valid positive integer IDs");
   }
 
-  if (!data || typeof data !== "object" || Array.isArray(data)) {
-    throw new Error("Valid update data is required");
+  // Validate update data
+  if (
+    !data ||
+    typeof data !== "object" ||
+    Array.isArray(data) ||
+    Object.keys(data).length === 0
+  ) {
+    throw new Error("Valid non-empty update data is required");
   }
 
+  // Validate entity
+  if (entity !== "contacts") {
+    throw new Error("Unsupported entity. Only contacts are supported");
+  }
+
+  // Validate action
+  if (action !== "update") {
+    throw new Error("Unsupported action. Only update is supported");
+  }
+
+  // Validate allowed Contact fields
+  const invalidFields = Object.keys(data).filter(
+    (field) => !ALLOWED_CONTACT_FIELDS.includes(field),
+  );
+
+  if (invalidFields.length > 0) {
+    throw new Error(`Invalid Contact fields: ${invalidFields.join(", ")}`);
+  }
+
+  // Create job in database
   const job = await prisma.bulkAction.create({
     data: {
       id: randomUUID(),
@@ -31,47 +65,46 @@ const createBulkAction = async ({
 };
 
 // Get bulk action by ID
-const getBulkActionById = async (id) => {
-  return await prisma.bulkAction.findUnique({
+const getBulkActionById = (id) => {
+  return prisma.bulkAction.findUnique({
     where: { id },
-    include: {
-      logs: {
-        orderBy: { createdAt: "desc" },
-      },
-    },
   });
 };
 
 // Get bulk action statistics
 const getBulkActionStats = async (id) => {
-  const job = await prisma.bulkAction.findUnique({
-    where: { id },
+  return prisma.$transaction(async (tx) => {
+    const job = await tx.bulkAction.findUnique({
+      where: { id },
+    });
+
+    if (!job) {
+      return null;
+    }
+
+    const skipped = await tx.bulkActionLog.count({
+      where: {
+        bulkActionId: id,
+        status: "skipped",
+      },
+    });
+
+    const processed = job.successful + job.failed + skipped;
+
+    return {
+      total: job.total,
+      successful: job.successful,
+      failed: job.failed,
+      skipped,
+      processed,
+      remaining: Math.max(0, job.total - processed),
+      progress:
+        job.total === 0
+          ? 100
+          : Number(((processed / job.total) * 100).toFixed(2)),
+      status: job.status,
+    };
   });
-
-  if (!job) return null;
-
-  const skipped = await prisma.bulkActionLog.count({
-    where: {
-      bulkActionId: id,
-      status: "skipped",
-    },
-  });
-
-  const processed = job.successful + job.failed + skipped;
-
-  return {
-    total: job.total,
-    successful: job.successful,
-    failed: job.failed,
-    skipped,
-    processed,
-    remaining: job.total - processed,
-    progress:
-      job.total === 0
-        ? 100
-        : Number(((processed / job.total) * 100).toFixed(2)),
-    status: job.status,
-  };
 };
 
 // Get all bulk actions with pagination
@@ -83,7 +116,9 @@ const getAllBulkActions = async (query = {}) => {
 
   const [jobs, total] = await Promise.all([
     prisma.bulkAction.findMany({
-      orderBy: { createdAt: "desc" },
+      orderBy: {
+        createdAt: "desc",
+      },
       skip,
       take: limit,
     }),
@@ -101,14 +136,16 @@ const getAllBulkActions = async (query = {}) => {
   };
 };
 
-// Get bulk action logs
+// Get bulk action logs with pagination and filtering
 const getBulkActionLogs = async (id, query = {}) => {
   const job = await prisma.bulkAction.findUnique({
     where: { id },
     select: { id: true },
   });
 
-  if (!job) return null;
+  if (!job) {
+    return null;
+  }
 
   const page = Math.max(1, parseInt(query.page, 10) || 1);
   const limit = Math.min(100, Math.max(1, parseInt(query.limit, 10) || 100));
@@ -126,11 +163,15 @@ const getBulkActionLogs = async (id, query = {}) => {
   const [logs, total] = await Promise.all([
     prisma.bulkActionLog.findMany({
       where,
-      orderBy: { createdAt: "desc" },
+      orderBy: {
+        createdAt: "desc",
+      },
       skip,
       take: limit,
     }),
-    prisma.bulkActionLog.count({ where }),
+    prisma.bulkActionLog.count({
+      where,
+    }),
   ]);
 
   return {
