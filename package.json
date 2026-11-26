@@ -20,6 +20,7 @@
     "pg": "^8.23.1"
   },
   "devDependencies": {
+    "autocannon": "^9.0.0",
     "prisma": "^7.10.1",
     "tsx": "^4.23.15"
   }
