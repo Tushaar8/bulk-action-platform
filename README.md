@@ -112,15 +112,15 @@ http://localhost:5000
 
 ## API Endpoints
 
-| Method | Endpoint | Description |
-|---|---|---|
-| GET | `/contacts` | Retrieve contacts |
-| POST | `/contacts` | Create a contact |
-| POST | `/bulk-actions` | Create a bulk action |
-| GET | `/bulk-actions` | Retrieve bulk actions |
-| GET | `/bulk-actions/:actionId` | Retrieve action details |
-| GET | `/bulk-actions/:actionId/stats` | Retrieve action statistics |
-| GET | `/bulk-actions/:actionId/logs` | Retrieve execution logs |
+| Method | Endpoint                        | Description                |
+| ------ | ------------------------------- | -------------------------- |
+| GET    | `/contacts`                     | Retrieve contacts          |
+| POST   | `/contacts`                     | Create a contact           |
+| POST   | `/bulk-actions`                 | Create a bulk action       |
+| GET    | `/bulk-actions`                 | Retrieve bulk actions      |
+| GET    | `/bulk-actions/:actionId`       | Retrieve action details    |
+| GET    | `/bulk-actions/:actionId/stats` | Retrieve action statistics |
+| GET    | `/bulk-actions/:actionId/logs`  | Retrieve execution logs    |
 
 ### Log Filtering
 
@@ -255,17 +255,17 @@ Observed results:
 
 A bulk action containing 2,000 contact IDs was submitted and processed successfully.
 
-| Metric | Result |
-|---|---:|
-| Total records | 2,000 |
-| Successful | 2,000 |
-| Failed | 0 |
-| Skipped | 0 |
-| Remaining | 0 |
-| Progress | 100% |
-| Final status | Completed |
+| Metric        |    Result |
+| ------------- | --------: |
+| Total records |     2,000 |
+| Successful    |     2,000 |
+| Failed        |         0 |
+| Skipped       |         0 |
+| Remaining     |         0 |
+| Progress      |      100% |
+| Final status  | Completed |
 
-*Note: Autocannon results are local API GET-request benchmarks. They are not production benchmarks or measurements of background-worker throughput.*
+_Note: Autocannon results are local API GET-request benchmarks. They are not production benchmarks or measurements of background-worker throughput._
 
 ## Rate Limiting
 
