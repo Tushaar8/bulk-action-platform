@@ -275,13 +275,25 @@ Requests exceeding this limit receive an HTTP `429 Too Many Requests` response.
 
 ## Postman Collection
 
-The repository includes:
+The project includes a Postman collection:
 
-```text
-BAP.postman_collection.json
-```
+`BAP.postman_collection.json`
 
-Import this collection into Postman to test the available API endpoints.
+**Collection Name:** Bulk Action Platform – BAP API Collection
+
+The collection contains 11 API requests organized into three folders:
+
+1. **Health & Contacts** – 3 requests
+2. **Bulk Actions** – 3 requests
+3. **Statistics & Logs** – 5 requests
+
+### Import Instructions
+
+1. Open Postman.
+2. Import `BAP.postman_collection.json`.
+3. Configure the API base URL as `http://localhost:5000`.
+4. Start the API server and background worker.
+5. Execute the requests to test the application.
 
 ## Future Improvements
 
